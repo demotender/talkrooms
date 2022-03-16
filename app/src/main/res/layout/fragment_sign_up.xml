@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/ed_nickname"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="nickname"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_head" />
+
+    <EditText
+        android:id="@+id/ed_useraccount"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="accountname"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/ed_nickname"
+        app:layout_constraintStart_toStartOf="@+id/ed_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/ed_nickname" />
+
+    <EditText
+        android:id="@+id/ed_userpassword"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="password"
+        android:inputType="numberPassword"
+        app:layout_constraintEnd_toEndOf="@+id/ed_useraccount"
+        app:layout_constraintStart_toStartOf="@+id/ed_useraccount"
+        app:layout_constraintTop_toBottomOf="@+id/ed_useraccount" />
+
+    <Button
+        android:id="@+id/b_send"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:text="SEND"
+        app:layout_constraintEnd_toEndOf="@+id/ed_userpassword"
+        app:layout_constraintStart_toStartOf="@+id/ed_userpassword"
+        app:layout_constraintTop_toBottomOf="@+id/ed_userpassword" />
+
+    <ImageButton
+        android:id="@+id/b_signtologin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/titlebar_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_head"
+        android:layout_width="176dp"
+        android:layout_height="172dp"
+        android:layout_marginTop="128dp"
+        android:src="@drawable/pic_personal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/image_b_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="145dp"
+        android:src="@drawable/btn_be_dit"
+        app:layout_constraintBottom_toBottomOf="@+id/image_head"
+        app:layout_constraintStart_toStartOf="@+id/image_head" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Ｒegistered Ｍember"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/image_head"
+        app:layout_constraintEnd_toEndOf="@+id/image_head"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="@+id/image_head" />
+</androidx.constraintlayout.widget.ConstraintLayout>
