@@ -1,23 +1,25 @@
 package com.vangood.chatfrag0315
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import com.vangood.chatfrag0315.databinding.FragmentSignUpBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SignUpFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SignUpFragment : Fragment() {
-
+    lateinit var binding:FragmentSignUpBinding
+    val selectPictureFromGallery =
+        registerForActivityResult(ActivityResultContracts.GetContent()){
+            uri ->
+            uri?.let{
+                binding.imageHead.setImageURI(it)
+                uri.toString()
+            }
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,8 +29,23 @@ class SignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentSignUpBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up, container, false)
+        val s ="ssssss"
+        val uri = Uri.parse(s)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.imageBHead.setOnClickListener {
+            pickFromGallery()
+        }
+    }
+
+    private fun pickFromGallery(){
+        selectPictureFromGallery.launch("image/*")
+
     }
 
 

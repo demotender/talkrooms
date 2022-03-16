@@ -3,11 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/pic_corner.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14990942028985507" />
         <entry key="app/src/main/res/layout/fragment_home_populer.xml" value="0.15670289855072464" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.225" />
-        <entry key="app/src/main/res/layout/row_hotrooms.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/row_hotrooms.xml" value="0.25" />
         <entry key="app/src/main/res/menu/menu_nav.xml" value="0.225" />
       </map>
     </option>

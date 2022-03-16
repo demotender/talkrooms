@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.vangood.chatfrag0315.databinding.FragmentHomePopulerBinding
 import com.vangood.chatfrag0315.databinding.RowHotroomsBinding
@@ -57,12 +61,19 @@ class HomePopulerFragment : Fragment() {
             val binding = RowHotroomsBinding.inflate(layoutInflater,parent,false)
             return ChatRoomHolder(binding)
         }
+        //圓角
+        val option = RequestOptions()
+            .error(R.mipmap.ic_launcher_round)
+            //.transform(RoundedCorners(300))
+            .transform(CenterCrop(),RoundedCorners(50))
 
         override fun onBindViewHolder(holder: ChatRoomHolder, position: Int) {
             val lightYear= rooms[position]
             holder.title.setText(lightYear.stream_title)
             holder.nickname.setText(lightYear.nickname)
-            Glide.with(this@HomePopulerFragment).load(lightYear.head_photo)
+            Glide.with(this@HomePopulerFragment)
+                .applyDefaultRequestOptions(option)
+                .load(lightYear.head_photo)
                 .into(holder.headpic)
             holder.itemView.setOnClickListener {
                 //chatRoomClicked(lightYear)
