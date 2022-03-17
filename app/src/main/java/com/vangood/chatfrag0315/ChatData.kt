@@ -1,5 +1,8 @@
 package com.vangood.chatfrag0315
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 data class ChatRooms(
     val error_code: String,
     val error_text: String,
@@ -10,7 +13,7 @@ data class Result(
     val lightyear_list: List<Lightyear>,
     val stream_list: List<Stream>
 )
-
+@Parcelize
 data class Lightyear(
     val background_image: String,
     val charge: Int,
@@ -30,7 +33,7 @@ data class Lightyear(
     val stream_title: String,
     val streamer_id: Int,
     val tags: String
-)
+):Parcelable
 
 data class Stream(
     val background_image: String,

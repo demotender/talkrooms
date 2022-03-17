@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatFrag0315">
         <activity
+            android:name=".NavActivity"
+            android:exported="false"
+            android:label="@string/title_activity_nav" />
+        <activity
             android:name=".TalkRoomActivity"
             android:exported="false" />
         <activity

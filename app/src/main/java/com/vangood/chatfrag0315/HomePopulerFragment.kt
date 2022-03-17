@@ -2,11 +2,14 @@ package com.vangood.chatfrag0315
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,6 +28,7 @@ class HomePopulerFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
     }
 
@@ -81,8 +85,10 @@ class HomePopulerFragment : Fragment() {
                 .load(lightYear.head_photo)
                 .into(holder.headpic)
             holder.itemView.setOnClickListener {
-                //chatRoomClicked(lightYear)
-                val intents = Intent(context,TalkRoomActivity::class.java)
+                chatRoomClicked(lightYear)
+                Log.d("to talkActivity", "$lightYear")
+                val intents = Intent(context,TalkRoomFragment::class.java)
+
                 startActivity(intents)
             }
         }
@@ -102,6 +108,17 @@ class HomePopulerFragment : Fragment() {
         val title = binding.tvTitle
         val nickname = binding.tvName
         val headpic = binding.imageView
+
+    }
+    fun chatRoomClicked(lightyear : Lightyear) {
+//        val action = SecondFragmentDirections.actionRoomListToSingleRoom(lightyear)
+        val bundle = Bundle().apply {
+            putParcelable("room", lightyear)
+
+
+        }
+        Log.d("to talkActivity clicked", "$bundle")
+        //findNavController().navigate(R.id.action_homePopulerFragment_to_talkRoomFragment, bundle)
 
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation">
+
+    <fragment
+        android:id="@+id/homePopulerFragment"
+        android:name="com.vangood.chatfrag0315.HomePopulerFragment"
+        android:label="HomePopulerFragment" >
+        <action
+            android:id="@+id/action_homePopulerFragment_to_talkRoomFragment"
+            app:destination="@id/talkRoomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/talkRoomFragment"
+        android:name="com.vangood.chatfrag0315.TalkRoomFragment"
+        android:label="fragment_talk_room"
+        tools:layout="@layout/fragment_talk_room" />
+</navigation>

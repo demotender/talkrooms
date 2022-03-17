@@ -29,6 +29,9 @@ class TalkRoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val room = intent.getParcelableExtra<Lightyear>("room")
+        Log.d(TAG, " get room: ${room?.background_image}");
+
         //Web socket
         val client = OkHttpClient.Builder()
             .readTimeout(3, TimeUnit.SECONDS)
