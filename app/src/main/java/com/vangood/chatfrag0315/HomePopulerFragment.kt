@@ -1,30 +1,27 @@
 package com.vangood.chatfrag0315
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.google.gson.Gson
 import com.vangood.chatfrag0315.databinding.FragmentHomePopulerBinding
 import com.vangood.chatfrag0315.databinding.RowHotroomsBinding
-import java.net.URL
-import kotlin.concurrent.thread
 
 
 class HomePopulerFragment : Fragment() {
     lateinit var binding:FragmentHomePopulerBinding
-    val rooms = mutableListOf<Lightyear>()
     private lateinit var adapter:ChatRoomAdapter
-
+    val viewModel by viewModels<HPViewModel>()
+    val rooms = mutableListOf<Lightyear>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +43,8 @@ class HomePopulerFragment : Fragment() {
         binding.populerRecycler.layoutManager = GridLayoutManager(requireContext(),2)
         adapter = ChatRoomAdapter()
         binding.populerRecycler.adapter =adapter
-        thread {
+
+        /*thread {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
             val gsonroom = Gson().fromJson(json,ChatRooms::class.java)
             rooms.clear()
@@ -54,9 +52,16 @@ class HomePopulerFragment : Fragment() {
             activity?.runOnUiThread {
                 adapter.notifyDataSetChanged()
             }
+        }*/
+
+        //ViewModel
+        viewModel.talkRooms.observe(viewLifecycleOwner) { rooms ->
+            adapter.submitRooms(rooms)
         }
+        viewModel.getALLRooms()
     }
     inner class ChatRoomAdapter:RecyclerView.Adapter<ChatRoomHolder>(){
+        val chatRooms = mutableListOf<Lightyear>()
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatRoomHolder {
             val binding = RowHotroomsBinding.inflate(layoutInflater,parent,false)
             return ChatRoomHolder(binding)
@@ -68,7 +73,7 @@ class HomePopulerFragment : Fragment() {
             .transform(CenterCrop(),RoundedCorners(50))
 
         override fun onBindViewHolder(holder: ChatRoomHolder, position: Int) {
-            val lightYear= rooms[position]
+            val lightYear= chatRooms[position]
             holder.title.setText(lightYear.stream_title)
             holder.nickname.setText(lightYear.nickname)
             Glide.with(this@HomePopulerFragment)
@@ -77,17 +82,26 @@ class HomePopulerFragment : Fragment() {
                 .into(holder.headpic)
             holder.itemView.setOnClickListener {
                 //chatRoomClicked(lightYear)
+                val intents = Intent(context,TalkRoomActivity::class.java)
+                startActivity(intents)
             }
         }
 
         override fun getItemCount(): Int {
-            return rooms.size
+            return chatRooms.size
         }
+        fun submitRooms(rooms: List<Lightyear>) {
+            chatRooms.clear()
+            chatRooms.addAll(rooms)
+            notifyDataSetChanged()
+        }
+
 
     }
     inner class ChatRoomHolder(val binding:RowHotroomsBinding):RecyclerView.ViewHolder(binding.root){
         val title = binding.tvTitle
         val nickname = binding.tvName
         val headpic = binding.imageView
+
     }
 }
