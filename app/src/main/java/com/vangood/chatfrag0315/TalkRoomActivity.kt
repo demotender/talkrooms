@@ -3,8 +3,10 @@ package com.vangood.chatfrag0315
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,15 +31,24 @@ class TalkRoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val room = intent.getParcelableExtra<Lightyear>("room")
-        Log.d(TAG, " get room: ${room?.background_image}");
+        /*val room = intent.getParcelableExtra<Lightyear>("room")
+        //val intent = Intent()
+
+        val bundle2 = intent.getBundleExtra("bundle")!!
+        Log.d(TAG, " get room: ${room?.background_image}")
+        Log.d(TAG, " get room bundle2: $bundle2")
+        val YY = bundle2.getString("AA")
+        Log.d(TAG, "YY:$YY ")
+        val image = bundle2.getParcelable<Lightyear>("background_image")
+        Log.d(TAG, " get bundle parcelable: ${image}")*/
+        val user = "Guest"
 
         //Web socket
         val client = OkHttpClient.Builder()
             .readTimeout(3, TimeUnit.SECONDS)
             .build()
         val request = Request.Builder()
-            .url("wss://lott-dev.lottcube.asia/ws/chat/chat:app_test?nickname=Hank")
+            .url("wss://lott-dev.lottcube.asia/ws/chat/chat:app_test?nickname=$user")
             .build()
         websocket = client.newWebSocket(request, object : WebSocketListener() {
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -71,13 +82,13 @@ class TalkRoomActivity : AppCompatActivity() {
 //                webSocket.send("Hello, I am Hank")
             }
         })
+
         binding.bSendtalking.setOnClickListener {
             val message = binding.talkSend.text.toString()
 //            val json = "{\"action\": \"N\", \"content\": \"$message\" }"
 //            websocket.send(json)
             websocket.send(Gson().toJson(Message("N", message)))
         }
-
 
         binding.bTalkout.setOnClickListener {
 
@@ -96,7 +107,15 @@ class TalkRoomActivity : AppCompatActivity() {
 
 
         }
+        var videoview = binding.videoView
+        val uri :Uri = Uri.parse("android.resource://"+packageName+"/"+"raw/her")
+        videoview.setVideoURI(uri)
+        videoview.setOnPreparedListener {
+            videoview.start()
+        }
+        //binding.videoView.setVideoURI((Uri.parse("@")))
     }
+
 
 
 }

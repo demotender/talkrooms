@@ -1,5 +1,6 @@
 package com.vangood.chatfrag0315
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -40,6 +41,15 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.imageBHead.setOnClickListener {
             pickFromGallery()
+        }
+        binding.bSend.setOnClickListener {
+            if (binding.edNickname!=null && binding.edUseraccount!=null && binding.edUserpassword!= null){
+                val pref = requireContext().getSharedPreferences("chat", Context.MODE_PRIVATE)
+                pref.edit()
+                    .putString("USER_NAME",binding.edUseraccount.text.toString())
+                    .putString("PASSWORD",binding.edUserpassword.text.toString())
+                    .apply()
+            }
         }
     }
 

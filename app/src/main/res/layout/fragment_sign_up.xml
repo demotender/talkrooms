@@ -60,7 +60,8 @@
         android:layout_marginTop="24dp"
         android:src="@drawable/titlebar_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/image_head"
@@ -80,7 +81,8 @@
         android:layout_marginStart="145dp"
         android:src="@drawable/btn_be_dit"
         app:layout_constraintBottom_toBottomOf="@+id/image_head"
-        app:layout_constraintStart_toStartOf="@+id/image_head" />
+        app:layout_constraintStart_toStartOf="@+id/image_head"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textView"

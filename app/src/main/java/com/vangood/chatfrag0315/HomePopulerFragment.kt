@@ -2,11 +2,14 @@ package com.vangood.chatfrag0315
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -24,6 +27,7 @@ class HomePopulerFragment : Fragment() {
     lateinit var binding:FragmentHomePopulerBinding
     private lateinit var adapter:ChatRoomAdapter
     val viewModel by viewModels<HPViewModel>()
+    val lyviewModel by viewModels<MyViewmodel>()
     val rooms = mutableListOf<Lightyear>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,9 +91,9 @@ class HomePopulerFragment : Fragment() {
             holder.itemView.setOnClickListener {
                 chatRoomClicked(lightYear)
                 Log.d("to talkActivity", "$lightYear")
-                val intents = Intent(context,TalkRoomFragment::class.java)
+                /*val intents = Intent(context,TalkRoomActivity::class.java)
 
-                startActivity(intents)
+                startActivity(intents)*/
             }
         }
 
@@ -114,9 +118,20 @@ class HomePopulerFragment : Fragment() {
 //        val action = SecondFragmentDirections.actionRoomListToSingleRoom(lightyear)
         val bundle = Bundle().apply {
             putParcelable("room", lightyear)
-
-
         }
+        val intent =Intent(requireContext(),TalkRoomActivity::class.java)
+        intent.putExtra("bundle",bundle)
+        startActivity(intent)
+        lyviewModel.setroom(lightyear)
+
+        // Use the Kotlin extension in the fragment-ktx artifact
+        //setFragmentResult("requestKey", bundle)
+            //val myFrag=Fragment().setArguments(bundle)
+        /*requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.container,TalkRoomFragment())
+            .commit()*/
+
+
         Log.d("to talkActivity clicked", "$bundle")
         //findNavController().navigate(R.id.action_homePopulerFragment_to_talkRoomFragment, bundle)
 
