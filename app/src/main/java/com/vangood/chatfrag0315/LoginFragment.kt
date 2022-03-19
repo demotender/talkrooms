@@ -60,7 +60,7 @@ class LoginFragment : Fragment() {
         binding.bLogin.setOnClickListener {
             val username = binding.edName.text.toString()
             val password = binding.edPassword.text.toString()
-            if (viewModel.loginJudge(prefDataUser,prefDataPass,prefUser,prefPass)){
+            if (viewModel.loginJudge(prefDataUser,prefDataPass,username,password)){
                 if (remember){
                     pref.edit()
                         .putString("USER_NAME",username)
@@ -70,9 +70,10 @@ class LoginFragment : Fragment() {
                 }
                 pref.edit().putBoolean("login_state",true)
                     .apply()
-                val intent=Intent(requireContext(),MainActivity::class.java)
-                startActivity(intent)
+                /*val intent=Intent(requireContext(),MainActivity::class.java)
+                startActivity(intent)*/
                 //go to home
+                gototFragment(SignOkFragment())
             }else{
                 pref.edit().putBoolean("login_state",false)
                     .apply()

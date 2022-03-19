@@ -52,7 +52,7 @@ class SignUpFragment : Fragment() {
                 if (viewModel.passwordcheck(userpass)){
                     val pref = requireContext().getSharedPreferences("chat", Context.MODE_PRIVATE)
                     pref.edit()
-                        .putString("DATA_NICKNAME", nickname)
+                        .putString("DATA_NICKNAME",nickname)
                         .putString("DATA_USER_NAME",useraccount)
                         .putString("DATA_PASSWORD",userpass)
                         .putBoolean("login_state",true)
