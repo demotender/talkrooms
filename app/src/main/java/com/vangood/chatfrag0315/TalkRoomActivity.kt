@@ -1,21 +1,24 @@
 package com.vangood.chatfrag0315
 
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.Button
-import android.widget.ImageView
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.vangood.chatfrag0315.databinding.ActivityTalkRoomBinding
-import com.vangood.chatfrag0315.databinding.HeartBinding
+import com.vangood.chatfrag0315.databinding.RowMsgBinding
 import okhttp3.*
 import okio.ByteString
 import java.util.concurrent.TimeUnit
@@ -23,6 +26,13 @@ import java.util.concurrent.TimeUnit
 class TalkRoomActivity : AppCompatActivity() {
     private val TAG = TalkRoomActivity::class.java.simpleName
     lateinit var binding:ActivityTalkRoomBinding
+
+    val messages = mutableListOf<String>("呼呼","嘿","哈哈哈哈哈","呼呼","嘿","哈哈哈哈哈","呼呼","嘿","哈哈哈哈哈")
+    var map = mutableMapOf<Int,String>(0 to "Sun", 1 to "Mon")
+
+    /*val talks = mutableListOf<default_message>()
+    private lateinit var  adapter :TalkRoomAdapter*/
+
     //websocket
     lateinit var websocket: WebSocket
 
@@ -31,17 +41,11 @@ class TalkRoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        /*val room = intent.getParcelableExtra<Lightyear>("room")
-        //val intent = Intent()
-
-        val bundle2 = intent.getBundleExtra("bundle")!!
-        Log.d(TAG, " get room: ${room?.background_image}")
-        Log.d(TAG, " get room bundle2: $bundle2")
-        val YY = bundle2.getString("AA")
-        Log.d(TAG, "YY:$YY ")
-        val image = bundle2.getParcelable<Lightyear>("background_image")
-        Log.d(TAG, " get bundle parcelable: ${image}")*/
-        val user = "Guest"
+        val pref = getSharedPreferences("chat", Context.MODE_PRIVATE)
+        var user = "Guest"
+        if(pref.getBoolean("login_state",true)){
+            user=pref.getString("DATA_USER_NAME","")!!
+        }
 
         //Web socket
         val client = OkHttpClient.Builder()
@@ -68,6 +72,7 @@ class TalkRoomActivity : AppCompatActivity() {
 
             override fun onMessage(webSocket: WebSocket, text: String) {
                 super.onMessage(webSocket, text)
+                var msg = text
                 Log.d(TAG, ": onMessage $text");
             }
 
@@ -78,17 +83,23 @@ class TalkRoomActivity : AppCompatActivity() {
 
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 super.onOpen(webSocket, response)
-                Log.d(TAG, ": onOpen");
+                Log.d(TAG, ": onOpen success connect");
 //                webSocket.send("Hello, I am Hank")
             }
         })
-        
+        /*binding.recyclerTalkBar.setHasFixedSize(true)
+        binding.recyclerTalkBar.layoutManager = LinearLayoutManager(this)
+        adapter = TalkRoomAdapter()
+        binding.recyclerTalkBar.adapter = adapter*/
+
         binding.bSendtalking.setOnClickListener {
             val message = binding.talkSend.text.toString()
 //            val json = "{\"action\": \"N\", \"content\": \"$message\" }"
 //            websocket.send(json)
             websocket.send(Gson().toJson(Message("N", message)))
+            binding.talkSend.setText("")
         }
+
 
         binding.bTalkout.setOnClickListener {
 
@@ -104,17 +115,38 @@ class TalkRoomActivity : AppCompatActivity() {
                 }
                 .show()
 
-
-
         }
+
+        //binding.videoView.setVideoURI((Uri.parse("@")))
         var videoview = binding.videoView
         val uri :Uri = Uri.parse("android.resource://"+packageName+"/"+"raw/her")
         videoview.setVideoURI(uri)
         videoview.setOnPreparedListener {
             videoview.start()
         }
-        //binding.videoView.setVideoURI((Uri.parse("@")))
+
     }
+    /*inner class TalkRoomAdapter :RecyclerView.Adapter<TalkViewHolder>(){
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TalkViewHolder {
+            val binding = RowMsgBinding.inflate(layoutInflater,parent,false)
+            return TalkViewHolder(binding)
+        }
+
+        override fun onBindViewHolder(holder: TalkViewHolder, position: Int) {
+            val Msg = talks[position]
+            holder.left_msg.setText(Msg.body.text)
+            holder.user_msg.setText(Msg.body.nickname)
+        }
+
+        override fun getItemCount(): Int {
+            return 1
+        }
+
+    }
+    inner class TalkViewHolder(val binding: RowMsgBinding): RecyclerView.ViewHolder(binding.root){
+        var left_msg = binding.leftMsg
+        var user_msg = binding.leftName
+    }*/
 
 
 

@@ -26,7 +26,12 @@ class MainActivity : AppCompatActivity() {
                         commit()
                         true
                 }}
-                R.id.action_search->{true}
+                R.id.action_search->{
+                    supportFragmentManager.beginTransaction().run {
+                        replace(R.id.container,fragments[2])
+                        commit()
+                        true}
+                }
                 R.id.action_personal->{
                     supportFragmentManager.beginTransaction().run {
                         replace(R.id.container,fragments[0])
@@ -43,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private fun initFragments(){
         fragments.add(0,LoginFragment())
         fragments.add(1,HomePopulerFragment())
+        fragments.add(2,SearchFragment())
 
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.container,fragments[1])

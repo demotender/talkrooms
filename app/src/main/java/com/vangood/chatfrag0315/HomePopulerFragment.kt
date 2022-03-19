@@ -32,12 +32,6 @@ class HomePopulerFragment : Fragment() {
     val lyviewModel by viewModels<MyViewmodel>()
     val rooms = mutableListOf<Lightyear>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +43,14 @@ class HomePopulerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val pref = requireContext().getSharedPreferences("chat",Context.MODE_PRIVATE)
+        if (pref.getBoolean("login_state",true)) {
+            binding.tvNameHome.text = pref.getString("DATA_USER_NAME","")
+            binding.imagehead.setImageResource(R.drawable.topppicx)
+        }else{
+
+        }
+
         binding.populerRecycler.setHasFixedSize(true)
         binding.populerRecycler.layoutManager = GridLayoutManager(requireContext(),2)
         adapter = ChatRoomAdapter()
@@ -84,8 +86,8 @@ class HomePopulerFragment : Fragment() {
 
         override fun onBindViewHolder(holder: ChatRoomHolder, position: Int) {
             val lightYear= chatRooms[position]
-            holder.title.setText(lightYear.stream_title)
-            holder.nickname.setText(lightYear.nickname)
+            holder.title.text = lightYear.stream_title
+            holder.nickname.text = lightYear.nickname
             Glide.with(this@HomePopulerFragment)
                 .applyDefaultRequestOptions(option)
                 .load(lightYear.head_photo)
