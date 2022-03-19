@@ -1,5 +1,6 @@
 package com.vangood.chatfrag0315
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +14,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         initFragments()
+        val pref = getSharedPreferences("chat", Context.MODE_PRIVATE)
+        pref.edit().putBoolean("login_state",false)
+            .apply()
         binding.bottomNavBar.setOnItemSelectedListener {
             item ->
             when(item.itemId){

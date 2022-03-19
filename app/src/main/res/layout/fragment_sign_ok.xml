@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="@+id/image_head" />
 
     <TextView
-        android:id="@+id/tv_name_signok"
+        android:id="@+id/tv_nick_signok"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
@@ -41,22 +41,22 @@
         app:layout_constraintTop_toBottomOf="@+id/image_head" />
 
     <TextView
-        android:id="@+id/tv_pass_signok"
+        android:id="@+id/tv_name_signok"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        app:layout_constraintEnd_toEndOf="@+id/tv_name_signok"
-        app:layout_constraintStart_toStartOf="@+id/tv_name_signok"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name_signok" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_nick_signok"
+        app:layout_constraintStart_toStartOf="@+id/tv_nick_signok"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nick_signok" />
 
     <Button
         android:id="@+id/b_out"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:text="OUT"
-        app:layout_constraintEnd_toEndOf="@+id/tv_pass_signok"
-        app:layout_constraintStart_toStartOf="@+id/tv_pass_signok"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pass_signok" />
+        android:layout_marginTop="80dp"
+        android:text="LOGOUT"
+        app:layout_constraintEnd_toEndOf="@+id/tv_name_signok"
+        app:layout_constraintStart_toStartOf="@+id/tv_name_signok"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name_signok" />
 </androidx.constraintlayout.widget.ConstraintLayout>
