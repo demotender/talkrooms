@@ -1,5 +1,6 @@
 package com.vangood.chatfrag0315
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -26,6 +27,7 @@ import com.vangood.chatfrag0315.databinding.RowHotroomsBinding
 class HomePopulerFragment : Fragment() {
     lateinit var binding:FragmentHomePopulerBinding
     private lateinit var adapter:ChatRoomAdapter
+
     val viewModel by viewModels<HPViewModel>()
     val lyviewModel by viewModels<MyViewmodel>()
     val rooms = mutableListOf<Lightyear>()
@@ -123,6 +125,9 @@ class HomePopulerFragment : Fragment() {
         intent.putExtra("bundle",bundle)
         startActivity(intent)
         lyviewModel.setroom(lightyear)
+        val inf = bundle.getParcelable<Lightyear>("room")
+        Log.d("pref room ", "${inf?.nickname}")
+
 
         // Use the Kotlin extension in the fragment-ktx artifact
         //setFragmentResult("requestKey", bundle)

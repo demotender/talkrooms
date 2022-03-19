@@ -37,9 +37,10 @@ class TalkRoomFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val room = arguments?.getParcelable<Lightyear>("room")
+        Log.d(TAG, "room: ${room?.stream_title}");
+
         lyviewModel.getroom()
         val room2 = lyviewModel.roomvalue
-        Log.d(TAG, "room: ${room?.stream_title}");
         Log.d(TAG, "room2: ${room2.toString()}")
 
 

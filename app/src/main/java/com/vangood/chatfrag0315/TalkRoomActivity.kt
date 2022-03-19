@@ -82,7 +82,7 @@ class TalkRoomActivity : AppCompatActivity() {
 //                webSocket.send("Hello, I am Hank")
             }
         })
-
+        
         binding.bSendtalking.setOnClickListener {
             val message = binding.talkSend.text.toString()
 //            val json = "{\"action\": \"N\", \"content\": \"$message\" }"
