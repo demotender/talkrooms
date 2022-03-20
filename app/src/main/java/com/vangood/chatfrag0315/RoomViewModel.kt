@@ -29,22 +29,22 @@ class RoomViewModel : ViewModel() {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
             val response = Gson().fromJson(json, ChatRooms::class.java)
             val searchKeyMap = mutableMapOf<String, Lightyear>()
-            var keysList = mutableListOf<String>()
+            var keysearch = mutableListOf<String>()
             val resultRoomsSet = mutableSetOf<Lightyear>()
 
             response.result.lightyear_list.forEach {
                 searchKeyMap.put(it.nickname, it)
                 searchKeyMap.put(it.stream_title, it)
                 searchKeyMap.put(it.tags, it)
-                keysList.add(it.nickname)
-                keysList.add(it.stream_title)
-                keysList.add(it.tags)
+                keysearch.add(it.nickname)
+                keysearch.add(it.stream_title)
+                keysearch.add(it.tags)
             }
             if (keywords == "") {
                 resultRoomsSet.clear()
             } else {
                 resultRoomsSet.clear()
-                keysList.forEach {
+                keysearch.forEach {
                     if (keywords in it) {
                         searchKeyMap[it]?.let {
                                 matchRoom -> resultRoomsSet.add(matchRoom)

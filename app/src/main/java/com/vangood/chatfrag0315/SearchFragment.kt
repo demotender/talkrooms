@@ -13,13 +13,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.vangood.chatfrag0315.databinding.FragmentHomePopulerBinding
 import com.vangood.chatfrag0315.databinding.FragmentSearchBinding
 import com.vangood.chatfrag0315.databinding.RowHotroomsBinding
 
 class SearchFragment : Fragment() {
     lateinit var binding: FragmentSearchBinding
-    private lateinit var adapter:ChatRoomAdapter
+    private lateinit var adapter:SearchRoomAdapter
 
     val viewModel by viewModels<HPViewModel>()
     val roomModel by viewModels<RoomViewModel>()
@@ -41,16 +40,29 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerSearch.setHasFixedSize(true)
         binding.recyclerSearch.layoutManager = GridLayoutManager(requireContext(),2)
-        adapter = ChatRoomAdapter()
+        adapter = SearchRoomAdapter()
         binding.recyclerSearch.adapter =adapter
 
-        viewModel.talkRooms.observe(viewLifecycleOwner) { rooms ->
+        roomModel.searchRooms.observe(viewLifecycleOwner) { rooms ->
             adapter.submitRooms(rooms)
         }
-        viewModel.getALLRooms()
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val searchword = binding.searchView.query.toString()
+                roomModel.getSearchRooms(searchword)
+                return false
+            }
+        })
+
     }
-    inner class ChatRoomAdapter: RecyclerView.Adapter<SearchHolder>(){
-        val chatRooms = mutableListOf<Lightyear>()
+    inner class SearchRoomAdapter: RecyclerView.Adapter<SearchHolder>(){
+        val searchRooms = mutableListOf<Lightyear>()
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHolder {
             val binding = RowHotroomsBinding.inflate(layoutInflater,parent,false)
             return SearchHolder(binding)
@@ -61,7 +73,7 @@ class SearchFragment : Fragment() {
             .transform(CenterCrop(), RoundedCorners(50))
 
         override fun onBindViewHolder(holder: SearchHolder, position: Int) {
-            val lightYear= chatRooms[position]
+            val lightYear= searchRooms[position]
             holder.title.setText(lightYear.stream_title)
             holder.nickname.setText(lightYear.nickname)
             Glide.with(this@SearchFragment)
@@ -76,11 +88,15 @@ class SearchFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return chatRooms.size
+            return searchRooms.size
         }
         fun submitRooms(rooms: List<Lightyear>) {
-            chatRooms.clear()
-            chatRooms.addAll(rooms)
+            searchRooms.clear()
+            searchRooms.addAll(rooms)
+            if (searchRooms.size==0){
+                viewModel.getALLRooms()
+            }
+
             notifyDataSetChanged()
         }
 
@@ -105,13 +121,12 @@ class SearchFragment : Fragment() {
         Log.d("pref room ", "${inf?.nickname}")
         Log.d("to talkActivity clicked", "$bundle")
     }
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_roomlist, menu)
         val item = menu.findItem(R.id.app_bar_search)
         val searchView = item.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-
 
                 return false
             }
@@ -119,10 +134,9 @@ class SearchFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 val searchword = binding.searchView.query.toString()
                 roomModel.getSearchRooms(searchword)
-
                 return false
             }
         })
         super.onCreateOptionsMenu(menu, inflater)
-    }
+    }*/
 }
