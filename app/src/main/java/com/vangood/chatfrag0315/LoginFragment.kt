@@ -68,19 +68,23 @@ class LoginFragment : Fragment() {
                         .apply()
 
                 }
-                pref.edit().putBoolean("login_state",true)
+                pref.edit()
+                    .putBoolean("login_state",true)
+                    .putBoolean("room_state",false)
                     .apply()
                 /*val intent=Intent(requireContext(),MainActivity::class.java)
                 startActivity(intent)*/
                 //go to home
                 gototFragment(SignOkFragment())
             }else{
-                pref.edit().putBoolean("login_state",false)
+                pref.edit()
+                    .putBoolean("login_state",false)
+                    .putBoolean("room_state",true)
                     .apply()
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Login Fail")
-                    .setMessage("would you like to try again?")
-                    .setPositiveButton("OK"){d,w ->
+                    .setTitle(getString(R.string.login_fail))
+                    .setMessage(getString(R.string.would_you_like_to_try_again))
+                    .setPositiveButton(R.string.login_ok){d,w ->
                         binding.edName.setText("")
                         binding.edPassword.setText("")
                     }
@@ -104,10 +108,10 @@ class LoginFragment : Fragment() {
 
         }else{
             android.app.AlertDialog.Builder(requireContext())
-                .setTitle("First time login please sign up first.")
-                .setMessage("Press OK we well take you to sign up page.")
-                .setPositiveButton("ok"){d,w ->gototFragment(SignUpFragment())}
-                .setNegativeButton("do nothing",null)
+                .setTitle(getString(R.string.first_time_login_please))
+                .setMessage(getString(R.string.would_youtake_to_sighup))
+                .setPositiveButton(getString(R.string.login_ok)){ d, w ->gototFragment(SignUpFragment())}
+                .setNegativeButton(getString(R.string.do_nothing),null)
                 .show()
         }
     }
@@ -116,9 +120,9 @@ class LoginFragment : Fragment() {
 
         }else{
             android.app.AlertDialog.Builder(requireContext())
-                .setTitle("Please enter something")
-                .setMessage("Press OK we well let you try again.")
-                .setPositiveButton("ok",null)
+                .setTitle(getString(R.string.please_enter_something))
+                .setMessage(getString(R.string.press_ok))
+                .setPositiveButton(R.string.login_ok,null)
                 .show()
         }
     }

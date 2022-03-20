@@ -28,7 +28,7 @@
         android:id="@+id/tv_home_hot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wellcome Home Master"
+        android:text="@string/wellcome_home"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#770404"
         android:textSize="20sp"

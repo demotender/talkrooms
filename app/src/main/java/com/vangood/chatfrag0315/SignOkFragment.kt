@@ -32,9 +32,9 @@ class SignOkFragment : Fragment() {
         binding.tvNameSignok.text = name
         binding.bOut.setOnClickListener {
             AlertDialog.Builder(requireContext())
-                .setTitle("Log Out Check")
-                .setMessage("would you want to log out?")
-                .setPositiveButton("OK"){d,w ->
+                .setTitle(getString(R.string.logout_check))
+                .setMessage(getString(R.string.want_to_log_out))
+                .setPositiveButton(getString(R.string.signok_ok)){ d, w ->
                     pref.edit().putBoolean("login_state",false)
                         .apply()
                     val transaction = requireActivity().supportFragmentManager.beginTransaction()
@@ -42,7 +42,7 @@ class SignOkFragment : Fragment() {
                         .disallowAddToBackStack()
                         .commit()
                 }
-                .setNegativeButton("NO",null)
+                .setNegativeButton(getString(R.string.no),null)
                 .show()
 
         }

@@ -17,6 +17,10 @@ class MainActivity : AppCompatActivity() {
         val pref = getSharedPreferences("chat", Context.MODE_PRIVATE)
         pref.edit().putBoolean("login_state",false)
             .apply()
+        if(pref.getBoolean("room_state",false)){
+            pref.edit().putBoolean("login_state",true)
+                .apply()
+        }
         binding.bottomNavBar.setOnItemSelectedListener {
             item ->
             when(item.itemId){

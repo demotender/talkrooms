@@ -60,16 +60,16 @@ class SignUpFragment : Fragment() {
                     gototFragment(SignOkFragment())
                 }else{
                     AlertDialog.Builder(requireContext())
-                        .setTitle("password sign up error")
-                        .setMessage("Please enter 8~12 letters or numbers")
-                        .setPositiveButton("ok",null)
+                        .setTitle(getString(R.string.password_error))
+                        .setMessage(getString(R.string.enter_8_12_word))
+                        .setPositiveButton(getString(R.string.sign_ok),null)
                         .show()
                 }
             }else{
                 AlertDialog.Builder(requireContext())
-                    .setTitle("account sign up error")
-                    .setMessage("Please enter 4~20 letters or numbers")
-                    .setPositiveButton("ok",null)
+                    .setTitle(getString(R.string.signup_error))
+                    .setMessage(getString(R.string.enter_4_20_letter))
+                    .setPositiveButton(R.string.sign_ok,null)
                     .show()
 
             }

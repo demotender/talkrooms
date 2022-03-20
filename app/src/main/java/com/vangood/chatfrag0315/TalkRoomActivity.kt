@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -43,6 +44,7 @@ class TalkRoomActivity : AppCompatActivity() {
 
         val pref = getSharedPreferences("chat", Context.MODE_PRIVATE)
         var user = "Guest"
+
         if(pref.getBoolean("login_state",true)){
             user=pref.getString("DATA_USER_NAME","")!!
         }
@@ -106,11 +108,11 @@ class TalkRoomActivity : AppCompatActivity() {
             val item = LayoutInflater.from(this).inflate(R.layout.heart, null)
             AlertDialog.Builder(this)
                 .setView(item)
-                .setPositiveButton("OK") { d, w ->
+                .setPositiveButton(getString(R.string.ok)) { d, w ->
                     val intent= Intent(this,MainActivity::class.java)
                     startActivity(intent)
                 }
-                .setNegativeButton("Stay"){
+                .setNegativeButton(getString(R.string.stay)){
                     d,w->null
                 }
                 .show()
@@ -119,7 +121,7 @@ class TalkRoomActivity : AppCompatActivity() {
 
         //binding.videoView.setVideoURI((Uri.parse("@")))
         var videoview = binding.videoView
-        val uri :Uri = Uri.parse("android.resource://"+packageName+"/"+"raw/her")
+        val uri :Uri = Uri.parse("android.resource://$packageName/raw/her")
         videoview.setVideoURI(uri)
         videoview.setOnPreparedListener {
             videoview.start()
