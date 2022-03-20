@@ -10,7 +10,7 @@
     <string name="name">NAME</string>
     <string name="wellcome_home">Wellcome Home</string>
     <string name="username">username</string>
-    <string name="password">password</string>
+    <string name="password2">password</string>
     <string name="remember_me">Remember Me</string>
     <string name="login">Login</string>
     <string name="signup">SignUP</string>
@@ -20,12 +20,10 @@
     <string name="accountname">accountname</string>
     <string name="password">password</string>
     <string name="send">SEND</string>
-    <string name="registered_ember">Registered Ｍember</string>
     <string name="are_you_sure_to_leave">Are you sure to leave?</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="personal">Personal</string>
-    <string name="search">Search</string>
     <string name="would_you_like_to_try_again">would you like to try again?</string>
     <string name="login_fail">Login Fail</string>
     <string name="first_time_login_please">First time login please sign up first.</string>

@@ -61,17 +61,17 @@ class RoomViewModel : ViewModel() {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
             val response = Gson().fromJson(json, ChatRooms::class.java)
             val hitKeyMap = mutableMapOf<Int, Lightyear>()
-            var keysList = mutableListOf<Int>()
+            var keysearch = mutableListOf<Int>()
             val resultRooms = mutableListOf<Lightyear>()
 
             response.result.lightyear_list.forEach {
                 hitKeyMap.put(it.online_num, it)
-                keysList.add(it.online_num)
+                keysearch.add(it.online_num)
             }
 
-            keysList.sortDescending()
+            keysearch.sortDescending()
 
-            keysList.forEach {
+            keysearch.forEach {
                 hitKeyMap[it]?.let { sortedRoom -> resultRooms.add(sortedRoom) }
             }
             chatRooms.postValue(resultRooms)

@@ -40,4 +40,11 @@
     <string name="yes">沒錯！</string>
     <string name="nono">不要</string>
     <string name="enter_8_12_word">請輸入８～１２位數字</string>
+    <string name="password2">密碼</string>
+    <string name="do_nothing">沒做</string>
+    <string name="title_notifications">不知道</string>
+    <string name="title_dashboard">什麼</string>
+    <string name="title_home">首頁</string>
+    <string name="title_activity_nav">什麼</string>
+    <string name="hello_blank_fragment">什麼</string>
 </resources>

@@ -22,6 +22,7 @@ class SearchFragment : Fragment() {
     private lateinit var adapter:ChatRoomAdapter
 
     val viewModel by viewModels<HPViewModel>()
+    val roomModel by viewModels<RoomViewModel>()
     val rooms = mutableListOf<Lightyear>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,10 +112,13 @@ class SearchFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
+
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                val searchword = binding.searchView.query.toString()
+                roomModel.getSearchRooms(searchword)
 
                 return false
             }
