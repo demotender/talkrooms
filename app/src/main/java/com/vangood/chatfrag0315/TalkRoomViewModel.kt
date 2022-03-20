@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 class TalkRoomViewModel: ViewModel() {
     val talkRooms = MutableLiveData<String>()
     fun setMsgData(message:String){
+
             talkRooms.postValue(message)
         }
 

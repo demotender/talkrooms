@@ -123,9 +123,9 @@ class HomePopulerFragment : Fragment() {
         val bundle = Bundle().apply {
             putParcelable("room", lightyear)
         }
-        val intent =Intent(requireContext(),TalkRoomActivity::class.java)
+        /*val intent =Intent(requireContext(),TalkRoomActivity::class.java)
         intent.putExtra("bundle",bundle)
-        startActivity(intent)
+        startActivity(intent)*/
         lyviewModel.setroom(lightyear)
         val inf = bundle.getParcelable<Lightyear>("room")
         Log.d("pref room ", "${inf?.nickname}")
@@ -134,9 +134,9 @@ class HomePopulerFragment : Fragment() {
         // Use the Kotlin extension in the fragment-ktx artifact
         //setFragmentResult("requestKey", bundle)
             //val myFrag=Fragment().setArguments(bundle)
-        /*requireActivity().supportFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.container,TalkRoomFragment())
-            .commit()*/
+            .commit()
 
 
         Log.d("to talkActivity clicked", "$bundle")

@@ -113,9 +113,12 @@ class SearchFragment : Fragment() {
         val bundle = Bundle().apply {
             putParcelable("room", lightyear)
         }
-        val intent = Intent(requireContext(),TalkRoomActivity::class.java)
+        /*val intent = Intent(requireContext(),TalkRoomActivity::class.java)
         intent.putExtra("bundle",bundle)
-        startActivity(intent)
+        startActivity(intent)*/
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.container,TalkRoomFragment())
+            .commit()
 
         val inf = bundle.getParcelable<Lightyear>("room")
         Log.d("pref room ", "${inf?.nickname}")
