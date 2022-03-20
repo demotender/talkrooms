@@ -56,7 +56,8 @@ data class Stream(
     val tags: String
 )
 
-data class default_message(
+//一般發話 [default_message]
+data class DefaultMessage(
     val body: Body,
     val event: String,
     val room_id: String,
@@ -83,8 +84,8 @@ data class Info(
     val level: Int
 )
 
-//123456
-data class UpdateRoomStatus(
+//進出更新通知 [sys_updateRoomStatus]
+data class SysUpdateRoomStatus(
     val body: UpdateBody,
     val event: String,
     val room_id: String,
@@ -121,8 +122,8 @@ data class EntryBanner(
     val present_type: String
 )
 
-
-data class AllBroadcast(
+//系統廣播 [admin_all_broadcast]
+data class AdminInAllBroadcast(
     val body: BroadcastBody,
     val event: String,
     val room_id: String,
@@ -138,4 +139,13 @@ data class Content(
     val cn: String,
     val en: String,
     val tw: String
+)
+
+//房間關閉 [sys_room_endStream]
+data class SysRoomEndStream(
+    val body: Body,
+    val event: String,
+    val room_id: String,
+    val sender_role: Int,
+    val time: String
 )

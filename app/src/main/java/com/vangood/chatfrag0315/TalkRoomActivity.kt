@@ -9,14 +9,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.vangood.chatfrag0315.databinding.ActivityTalkRoomBinding
 import com.vangood.chatfrag0315.databinding.RowMsgBinding
@@ -27,6 +25,8 @@ import java.util.concurrent.TimeUnit
 class TalkRoomActivity : AppCompatActivity() {
     private val TAG = TalkRoomActivity::class.java.simpleName
     lateinit var binding:ActivityTalkRoomBinding
+    private  lateinit var  adapter:TalkRoomAdapter
+    val viewModel by viewModels<TalkRoomViewModel>()
 
     val messages = mutableListOf<String>("呼呼","嘿","哈哈哈哈哈","呼呼","嘿","哈哈哈哈哈","呼呼","嘿","哈哈哈哈哈")
     var map = mutableMapOf<Int,String>(0 to "Sun", 1 to "Mon")
@@ -74,8 +74,30 @@ class TalkRoomActivity : AppCompatActivity() {
 
             override fun onMessage(webSocket: WebSocket, text: String) {
                 super.onMessage(webSocket, text)
-                var msg = text
-                Log.d(TAG, ": onMessage $text");
+                val Msg = text
+                if("default_message" in Msg){
+                    val req = Gson().fromJson(Msg,DefaultMessage::class.java)
+                    Log.d(TalkRoomFragment.TAG, req.body.nickname)
+                    Log.d(TalkRoomFragment.TAG, req.body.text)
+
+                }else if ("sys_updateRoomStatus" in Msg) {
+                    val req = Gson().fromJson(Msg,SysUpdateRoomStatus::class.java)
+                    var action = req.body.entry_notice.action
+                    if (action == "enter") {
+                        Log.d(TalkRoomFragment.TAG, "Hello ${req.body.entry_notice.username} come")
+                    } else if (action == "leave") {
+                        Log.d(TalkRoomFragment.TAG, " ${req.body.entry_notice.username} leave")
+                    }
+                }else if ("admin_all_broadcast" in Msg) {
+                    val req = Gson().fromJson(Msg,AdminInAllBroadcast::class.java)
+                    Log.d(TalkRoomFragment.TAG, req.body.content.cn)
+                }else if("sys_room_endStream" in Msg){
+                    val req = Gson().fromJson(Msg,SysRoomEndStream::class.java)
+                    Log.d(TalkRoomFragment.TAG, req.body.type)
+                }
+                else{
+                    Log.d(TalkRoomFragment.TAG, "onMessage: -> event: undefined")
+                }
             }
 
             override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
@@ -102,7 +124,6 @@ class TalkRoomActivity : AppCompatActivity() {
             binding.talkSend.setText("")
         }
 
-
         binding.bTalkout.setOnClickListener {
 
             val item = LayoutInflater.from(this).inflate(R.layout.heart, null)
@@ -126,31 +147,46 @@ class TalkRoomActivity : AppCompatActivity() {
         videoview.setOnPreparedListener {
             videoview.start()
         }
+        binding.recyclerTalkBar.setHasFixedSize(true)
+        binding.recyclerTalkBar.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true)
+        binding.recyclerTalkBar.scrollToPosition(adapter.itemCount-1)
+        adapter = TalkRoomAdapter()
+        binding.recyclerTalkBar.adapter = adapter
+        /*viewModel.talkRooms.observe(viewLifecycleOwner) { message ->
+            adapter.submitRooms(message)
+        }
+        viewModel.getALLRooms()*/
+
 
     }
-    /*inner class TalkRoomAdapter :RecyclerView.Adapter<TalkViewHolder>(){
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TalkViewHolder {
+    inner class TalkRoomAdapter:RecyclerView.Adapter<TalkRoomViewHolder>(){
+        val talkRooms = mutableListOf<DefaultMessage>()
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TalkRoomViewHolder {
             val binding = RowMsgBinding.inflate(layoutInflater,parent,false)
-            return TalkViewHolder(binding)
+            return TalkRoomViewHolder(binding)
         }
 
-        override fun onBindViewHolder(holder: TalkViewHolder, position: Int) {
-            val Msg = talks[position]
-            holder.left_msg.setText(Msg.body.text)
-            holder.user_msg.setText(Msg.body.nickname)
+        override fun onBindViewHolder(holder: TalkRoomViewHolder, position: Int) {
+            val message =talkRooms[position]
+            //holder.nick.text = message.body.nickname
+            val Mesage = message.body.text +":"+ message.body.text
+            holder.msg.text = Mesage
         }
 
         override fun getItemCount(): Int {
-            return 1
+            return talkRooms.size
+        }
+        fun submitRooms(rooms: List<DefaultMessage>) {
+            talkRooms.addAll(rooms)
+            notifyDataSetChanged()
         }
 
     }
-    inner class TalkViewHolder(val binding: RowMsgBinding): RecyclerView.ViewHolder(binding.root){
-        var left_msg = binding.leftMsg
-        var user_msg = binding.leftName
-    }*/
+    inner class TalkRoomViewHolder(val binding:RowMsgBinding) : RecyclerView.ViewHolder(binding.root) {
+        //val nick = binding.leftName
+        val msg = binding.leftMsg
 
-
+    }
 
 }
 data class Message(val action:String, val content: String)

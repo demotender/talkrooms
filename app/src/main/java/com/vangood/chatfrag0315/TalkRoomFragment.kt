@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.vangood.chatfrag0315.databinding.FragmentTalkRoomBinding
 import okhttp3.*
@@ -19,31 +18,10 @@ import java.util.concurrent.TimeUnit
 
 class TalkRoomFragment : Fragment() {
     /*
-    val lyviewModel by viewModels<MyViewmodel>()
-    val TAG = TalkRoomActivity::class.java.simpleName
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_talk_room, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val room = arguments?.getParcelable<Lightyear>("room")
         Log.d(TAG, "room: ${room?.stream_title}");
-
-        lyviewModel.getroom()
-        val room2 = lyviewModel.roomvalue
-        Log.d(TAG, "room2: ${room2.toString()}")
-
-
     }*/
 
     companion object {
@@ -79,8 +57,7 @@ class TalkRoomFragment : Fragment() {
             requestName = username.toString()
         }
 
-        var vidPath = "android.resource://"+requireContext().packageName+"/raw/her"
-        var uri = Uri.parse(vidPath)
+        var uri = Uri.parse("android.resource://"+requireContext().packageName+"/raw/her")
 
         val client = OkHttpClient.Builder()
             .readTimeout(3, TimeUnit.SECONDS)
@@ -108,17 +85,28 @@ class TalkRoomFragment : Fragment() {
             override fun onMessage(webSocket: WebSocket, text: String) {
                 super.onMessage(webSocket, text)
                 val json = text
-                if ("sys_updateRoomStatus" in json) {
-                    val response = Gson().fromJson(json, UpdateRoomStatus::class.java)
-                    var action = response.body.entry_notice.action
+                if("default_message" in json){
+                    val req = Gson().fromJson(json,DefaultMessage::class.java)
+                    Log.d(TAG, req.body.nickname)
+                    Log.d(TAG, req.body.text)
+
+                }else if ("sys_updateRoomStatus" in json) {
+                    val req = Gson().fromJson(json,SysUpdateRoomStatus::class.java)
+                    var action = req.body.entry_notice.action
                     if (action == "enter") {
-                        Log.d(TAG, "Hello ${response.body.entry_notice.username} come")
+                        Log.d(TAG, "Hello ${req.body.entry_notice.username} come")
                     } else if (action == "leave") {
-                        Log.d(TAG, " ${response.body.entry_notice.username} leave")
+                        Log.d(TAG, " ${req.body.entry_notice.username} leave")
                     }
-                } else if ("admin_all_broadcast" in json) {
-                    val response = Gson().fromJson(json, AllBroadcast::class.java)
-                    Log.d(TAG, response.body.content.en)
+                }else if ("admin_all_broadcast" in json) {
+                    val req = Gson().fromJson(json,AdminInAllBroadcast::class.java)
+                    Log.d(TAG, req.body.content.cn)
+                }else if("sys_room_endStream" in json){
+                    val req = Gson().fromJson(json,SysRoomEndStream::class.java)
+                    Log.d(TAG, req.body.type)
+                }
+                else{
+                    Log.d(TAG, "onMessage: -> event: undefined")
                 }
 
             }
@@ -134,9 +122,9 @@ class TalkRoomFragment : Fragment() {
             }
         })
 
-        binding.vGirl.setVideoURI(uri)
-        binding.vGirl.setOnPreparedListener {
-            binding.vGirl.start()
+        binding.vHer.setVideoURI(uri)
+        binding.vHer.setOnPreparedListener {
+            binding.vHer.start()
         }
 
         binding.btLeave.setOnClickListener {

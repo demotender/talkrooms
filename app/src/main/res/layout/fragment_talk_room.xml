@@ -7,7 +7,7 @@
     android:background="@drawable/ic_launcher_background">
 
     <VideoView
-        android:id="@+id/v_girl"
+        android:id="@+id/v_her"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
