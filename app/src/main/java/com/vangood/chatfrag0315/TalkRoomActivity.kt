@@ -2,17 +2,15 @@ package com.vangood.chatfrag0315
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer.OnCompletionListener
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -21,6 +19,7 @@ import com.vangood.chatfrag0315.databinding.RowMsgBinding
 import okhttp3.*
 import okio.ByteString
 import java.util.concurrent.TimeUnit
+
 
 class TalkRoomActivity : AppCompatActivity() {
     private val TAG = TalkRoomActivity::class.java.simpleName
@@ -147,6 +146,11 @@ class TalkRoomActivity : AppCompatActivity() {
         videoview.setOnPreparedListener {
             videoview.start()
         }
+        //video loop
+        videoview.setOnCompletionListener(OnCompletionListener { mp ->
+            mp.start()
+            mp.isLooping = true
+        })
         binding.recyclerTalkBar.setHasFixedSize(true)
         binding.recyclerTalkBar.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true)
         binding.recyclerTalkBar.scrollToPosition(adapter.itemCount-1)
