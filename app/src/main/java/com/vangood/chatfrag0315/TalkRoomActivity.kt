@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -78,6 +79,7 @@ class TalkRoomActivity : AppCompatActivity() {
                     val req = Gson().fromJson(Msg,DefaultMessage::class.java)
                     Log.d(TalkRoomFragment.TAG, req.body.nickname)
                     Log.d(TalkRoomFragment.TAG, req.body.text)
+                    viewModel.setMsgData(Msg)
 
                 }else if ("sys_updateRoomStatus" in Msg) {
                     val req = Gson().fromJson(Msg,SysUpdateRoomStatus::class.java)
@@ -153,13 +155,13 @@ class TalkRoomActivity : AppCompatActivity() {
         })
         binding.recyclerTalkBar.setHasFixedSize(true)
         binding.recyclerTalkBar.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true)
-        binding.recyclerTalkBar.scrollToPosition(adapter.itemCount-1)
+        //binding.recyclerTalkBar.scrollToPosition(adapter.itemCount-1)
         adapter = TalkRoomAdapter()
         binding.recyclerTalkBar.adapter = adapter
-        /*viewModel.talkRooms.observe(viewLifecycleOwner) { message ->
-            adapter.submitRooms(message)
-        }
-        viewModel.getALLRooms()*/
+
+        /*viewModel.talkRooms.observe(LifecycleOwner ,Observer {message ->
+            adapter.submitRooms(message)})*/
+
 
 
     }
